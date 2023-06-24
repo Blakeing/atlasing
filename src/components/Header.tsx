@@ -9,13 +9,18 @@ import { cn } from "@/lib/utils";
 import { Icons } from "@/components/Icons";
 
 import { FC } from "react";
+import { UserButton } from "@clerk/nextjs";
+
+import { useUser } from "@clerk/nextjs";
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = ({}) => {
   const pathname = usePathname();
+  const { isLoaded, isSignedIn, user } = useUser();
+
   return (
-    <header className=" hidden md:flex container py-6">
+    <header className=" hidden md:flex justify-between  container py-6">
       <Link href="/" className="mr-6 flex items-center space-x-2">
         <Icons.logo className="h-10 w-auto" />
       </Link>
@@ -59,6 +64,20 @@ const Header: FC<HeaderProps> = ({}) => {
         >
           GitHub
         </Link>
+        <div className="relative w-8">
+          {isLoaded && isSignedIn ? (
+            <UserButton afterSignOutUrl="/" />
+          ) : (
+            <Link
+              href="/sign-in"
+              className={cn(
+                "hidden text-foreground/60 transition-colors hover:text-foreground/80 lg:block"
+              )}
+            >
+              Login
+            </Link>
+          )}
+        </div>
       </nav>
     </header>
   );

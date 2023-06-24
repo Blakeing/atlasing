@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 
 import { fontSans } from "@/lib/fonts";
 
@@ -14,15 +15,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen flex flex-col bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={cn(
+            "min-h-screen flex flex-col bg-background font-sans antialiased",
+            fontSans.variable
+          )}
+        >
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
